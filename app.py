@@ -5,7 +5,6 @@ from flask import Flask, jsonify
 from datetime import datetime, timedelta
 from botocore.exceptions import ClientError
 
-# Carregar as variáveis de ambiente do arquivo .env
 load_dotenv()
 
 app = Flask(__name__)
@@ -17,13 +16,12 @@ def get_security_groups():
     aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
     aws_region = os.getenv('AWS_REGION', 'us-east-1')
 
-    # Criar um cliente EC2 usando as credenciais e a região
     ec2 = boto3.client('ec2',
                       aws_access_key_id=aws_access_key_id,
                       aws_secret_access_key=aws_secret_access_key,
                       region_name=aws_region)
 
-    # Obter a lista de security groups
+    
     response = ec2.describe_security_groups()
     security_groups = response['SecurityGroups']
 
@@ -55,22 +53,20 @@ def get_security_groups():
 
 @app.route('/api/users-without-mfa', methods=['GET'])
 def get_users_without_mfa():
-    # Obter as credenciais da AWS e a região a partir das variáveis de ambiente
+    
     aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
     aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
     aws_region = os.getenv('AWS_REGION', 'us-east-1')
 
-    # Criar um cliente IAM usando as credenciais e a região
     iam = boto3.client('iam',
                       aws_access_key_id=aws_access_key_id,
                       aws_secret_access_key=aws_secret_access_key,
                       region_name=aws_region)
 
-    # Obter a lista de usuários
+    
     response = iam.list_users()
     users = response['Users']
-
-    # Filtrar os usuários sem MFA habilitado
+    
     users_without_mfa = []
     for user in users:
         user_name = user['UserName']
@@ -93,7 +89,7 @@ def get_users_without_mfa():
 
 @app.route('/api/users-with-access-keys', methods=['GET'])
 def get_users_with_access_keys():
-    # Obter as credenciais da AWS e a região a partir das variáveis de ambiente
+    
     aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
     aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
     aws_region = os.getenv('AWS_REGION', 'us-east-1')
@@ -135,7 +131,7 @@ def get_users_with_access_keys():
 
 @app.route('/api/users-with-old-passwords', methods=['GET'])
 def get_users_with_old_passwords():
-    # Obter as credenciais da AWS e a região a partir das variáveis de ambiente
+    e
     aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
     aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
     aws_region = os.getenv('AWS_REGION', 'us-east-1')
@@ -174,12 +170,11 @@ def get_users_with_old_passwords():
 
 @app.route('/api/unused-volumes', methods=['GET'])
 def get_unused_volumes():
-    # Obter as credenciais da AWS e a região a partir das variáveis de ambiente
+    
     aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
     aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
     aws_region = os.getenv('AWS_REGION', 'us-east-1')
 
-    # Criar um cliente EC2 usando as credenciais e a região
     ec2 = boto3.client('ec2',
                       aws_access_key_id=aws_access_key_id,
                       aws_secret_access_key=aws_secret_access_key,
@@ -204,12 +199,11 @@ def get_unused_volumes():
 
 @app.route('/api/is-cloudtrail-enabled', methods=['GET'])
 def is_cloudtrail_enabled():
-    # Obter as credenciais da AWS e a região a partir das variáveis de ambiente
+    
     aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
     aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
     aws_region = os.getenv('AWS_REGION', 'us-east-1')
 
-    # Criar um cliente CloudTrail usando as credenciais e a região
     cloudtrail = boto3.client('cloudtrail',
                              aws_access_key_id=aws_access_key_id,
                              aws_secret_access_key=aws_secret_access_key,
@@ -228,12 +222,11 @@ def is_cloudtrail_enabled():
 
 @app.route('/api/is-root-user-mfa-enabled', methods=['GET'])
 def is_root_user_mfa_enabled():
-    # Obter as credenciais da AWS e a região a partir das variáveis de ambiente
+    
     aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
     aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
     aws_region = os.getenv('AWS_REGION', 'us-east-1')
 
-    # Criar um cliente IAM usando as credenciais e a região
     iam = boto3.client('iam',
                       aws_access_key_id=aws_access_key_id,
                       aws_secret_access_key=aws_secret_access_key,
